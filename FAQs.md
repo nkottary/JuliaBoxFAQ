@@ -7,10 +7,11 @@
 #### How to start using Julia?
 
 There are three methods of using Julia,
-* Visit [JuliaBox](https://juliabox.com/), login with gmail or linked or github
+
+1. Visit [JuliaBox](https://juliabox.com/), login with gmail or linked or github
  account and open a new notebook, preferably `0.4.6` kernel.
-* Install [`Julia`](http://julialang.org/downloads/) preferably the Current Release version which is `v0.4.6`.
-* Using the Juno IDE, which can be installed using the instructions [here](https://github.com/JunoLab/uber-juno/blob/master/setup.md).
+2. Install [`Julia`](http://julialang.org/downloads/) preferably the Current Release version which is `v0.4.6`.
+3. Using the Juno IDE, which can be installed using the instructions [here](https://github.com/JunoLab/uber-juno/blob/master/setup.md).
 
 #### Are there any learning material available online?
 
@@ -153,7 +154,7 @@ julia>c=[255,0,0]
  255
    0
    0
-  ```
+```
 #### How to add values to `Array`s arbitrarily?
 
 If `A` is an `Int` type array, `A=Array{Int, 1}()`, we can populate the array as follows,
@@ -186,20 +187,19 @@ or github.
 
 The landing page after login lists the files in the folder and on the top right corner you can create a new notebook, preferably `Julia 0.4.6`.
 
-![Select notebook](./PickNotebook.png)
+<img src="./static/PickNotebook.png" alt="Drawing" style="width:1000px;"/>
 
 The cursor will be on the first cell initially and you can write code within the cell, to execute hit `shift+enter`.
 
-![Select notebook](./Screen2.png)
+<img src="./static/Screen2.png" alt="Drawing" style="width:1000px;"/>
 
 #### How do I plot in `JuliaBox`?
 
 There are various packages available for plotting in `Julia`, viz, `Gadfly`, `Plotlyjs`, `Pyplot`, `Plots` among others. `Plots`
-is an interface to many of the other plotting libraries which act as backend. To create plots using `Plots` you have to select a backend as shown below,
+is an interface to many of the other plotting libraries which act as backend. To create plots using `Plots` you have to select a backend, e.x., to select Plotlyjs, run `plotly()`,
 
- ![Plot1](./Plot1.png)
+<img src="./static/Plot1.png" alt="Drawing" style="width:1000px;"/>
 
- ![Plot1](./Plot2.png)
 
 ## Troubleshooting :
 
@@ -282,11 +282,15 @@ Firstly for the algebraic formulation of the problem,
 * Objective function :  `min H+3L+2.5C+3S+F`
 * Constraints :
 
-`50*H+770*L+360*C+190*S+230*F>=600`
-`50*H+770*L+360*C+190*S+230*F<=900`
-`30*H+45*L+15*C+25*S+3*F>=30`
-`480*H+1770*L+800*C+580*S+160*F<=1150`
-`-20*H+52*L+1*C-31*S+8*F<=0`
+>    `50*H+770*L+360*C+190*S+230*F>=600`
+>    
+>    `50*H+770*L+360*C+190*S+230*F<=900`
+>    
+>    `30*H+45*L+15*C+25*S+3*F>=30`
+>    
+>    `480*H+1770*L+800*C+580*S+160*F<=1150`
+>    
+>    `-20*H+52*L+1*C-31*S+8*F<=0`
 
 Next to solve this problem using `JuMP`,
 
@@ -313,42 +317,32 @@ julia> @variable(m, F)
 julia> @objective(m, Min, H+3L+2.5C+3S+F)
 H + 3 L + 2.5 C + 3 S + F
 ```
-4. Set the constraints
 
+4. Set the constraints
 ```
 julia> @constraint(m, -20*H+52*L+1*C-31*S+8*F<=0)
 -20 H + 52 L + C - 31 S + 8 F ≤ 0
-
 julia> @constraint(m, 250*H+770*L+360*C+190*S+230*F>=600)
 250 H + 770 L + 360 C + 190 S + 230 F ≥ 600
-
 julia> @constraint(m, 250*H+770*L+360*C+190*S+230*F<=900)
 250 H + 770 L + 360 C + 190 S + 230 F ≤ 900
-
 julia> @constraint(m, 30*H+45*L+15*C+25*S+3*F>=30)
 30 H + 45 L + 15 C + 25 S + 3 F ≥ 30
-
 julia> @constraint(m, 480*H+1770*L+800*C+580*S+160*F<=1150)
 480 H + 1770 L + 800 C + 580 S + 160 F ≤ 1150
-
 julia> @constraint(m, H>=0)
 H ≥ 0
-
 julia> @constraint(m, L>=0)
 L ≥ 0
-
 julia> @constraint(m, C>=0)
 C ≥ 0
-
 julia> @constraint(m, S>=0)
 S ≥ 0
-
 julia> @constraint(m, F>=0)
 F ≥ 0
 ```
 
 5. Solve the model
-
 ```
 julia> status = solve(m)
 ```
@@ -370,36 +364,91 @@ The number hamburgers = 2.3934659090909087
 Note that it is impossible to buy 2.3 units of hamburger, for this we can set restrict the variables to be `Integer`s.
 
 
-#### How to perform simple statistical analysis on the data in brain.csv?
+#### How to perform simple statistical analysis on the structured data stored in a csv file?
 
 In a file brain.csv which has a header row for column names like shown below,
 
-Gender,FSIQ,VIQ,PIQ,Weight,Height,MRI_Count
-Female,133,132,124,118,64.5,816932
-Male,140,150,124,NaN,72.5,1001121
-Male,139,123,150,143,73.3,1038437
-Male,133,129,128,172,68.8,965353
-Female,137,132,134,147,65.0,951545
-
-
+Gender,FSIQ,VIQ,PIQ,Weight,Height,MRI_Count  
+Female,133,132,124,118,64.5,816932  
+Male,140,150,124,NaN,72.5,1001121  
+Male,139,123,150,143,73.3,1038437  
+Male,133,129,128,172,68.8,965353  
+Female,137,132,134,147,65.0,951545  
 
 ##### Reading the data from csv,
 
 ```
-df=readtable("brain.csv", header=true)
+df=readtable("brain.csv", nastrings=["NaN"], header=true)
 ```
 |Gender|FSIQ|VIQ|PIQ|Weight|Height|MRI_Count|
 |------|------|------|------|------|------|------|
 |Female|133|132|124|118|64.5|816932|
-|Male|140|150|124|NaN|72.5|1001121|
+|Male|140|150|124|NA|72.5|1001121|
 |Male|139|123|150|143|73.3|1038437|
 |Male|133|129|128|172|68.8|965353|
 |Female|137|132|134|147|65.0|951545|
 
-Note the presence of `NaN` in the `Weight` column.
+To find the mean of a column,
+
+```
+mean(df[:Weight])
+```
+This results in `NA` since one of the entries is not available. To deal with this,
+
+```
+mean(dropna(df[:Weight]))
+```
+which gives the value `145.0`.
 
 To find the ratio of `Weight` to `MRI_Count`, let us say for only the `Female` class,
 
 ```
-df=readtable("brain.csv", header=true)
+fem=df[df[:Gender].=="Female",:]
 ```
+ Another useful function is `by()` using which we can find the means of `Height` for both the `Gender`s,
+
+```
+by(df, [:Gender], df -> mean(df[:Height]))
+```
+||Gender|x1|
+|--|--|--|
+|1|Female|64.75|
+|2|Male|71.53|
+
+#### How to fit a set of points to a line?
+
+```
+data = DataFrame(X=[1,2,3], Y=[2,4,7])
+```
+||X|Y|
+|--|--|--|
+|1|1|2|
+|2|2|4|
+|3|3|7|
+
+```
+OLS = glm(Y ~ X, data, Normal(), IdentityLink())
+```
+The output is as shown below,
+
+```
+Formula: Y ~ 1 + X
+
+Coefficients:
+              Estimate Std.Error  z value Pr(>|z|)
+(Intercept)  -0.666667   0.62361 -1.06904   0.2850
+X                  2.5  0.288675  8.66025   <1e-17
+```
+
+To predict from the model,
+```
+p=predict(OLS)
+```
+
+Let us plot the data and the predicted values to how good the fit is,
+
+```
+Gadfly.plot(layer(x=[1,2,3],y=p, Geom.line), layer(x=data[:X], y=data[:Y], Geom.point))
+```
+
+<img src="./static/OLS.png" alt="Drawing" style="width:500px;"/>
